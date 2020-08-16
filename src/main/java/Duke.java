@@ -93,9 +93,30 @@ public class Duke {
             }
         }
 
+        else if (word.startsWith("delete")) {
+            int index;
+        try {
+            index = Integer.parseInt(word.substring(7));
+        } catch (IndexOutOfBoundsException e) {
+            //no proper number given
+            throw new EmptyArgumentException("Sorry! Duke could not find the task number");
+        }
+        try {
+            Task toBeDeleted = tasks.get(index);
+            tasks.remove(index);
+            printTopLine();
+            System.out.println("Noted. I've removed this task:\n" + toBeDeleted);
+            String numberTasks = String.format("Now you have %s %s in the list.", tasks.size(), tasks.size() == 1 ? "task" : "tasks");
+            System.out.println(numberTasks);
+            printBottomLine();
+        } catch (IndexOutOfBoundsException e) {
+            throw new InvalidArgumentException("Sorry! Duke could not find a task at the specified index");
+        }
+        }
         else {
             throw new InvalidArgumentException();
         }
+        loopMethod();
     }
 
     static void printTopLine() {
